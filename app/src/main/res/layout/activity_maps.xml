@@ -1,0 +1,126 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.francisco.w4d4week.view.maps_activity.MapsActivity">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="8dp"
+        map:layout_constraintTop_toBottomOf="@+id/btnAddAddress" >
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:textStyle="bold"
+                app:bootstrapBrand="success"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onNormalMap"
+                android:text="Normal" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:textStyle="bold"
+                app:bootstrapBrand="primary"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onSatelliteMap"
+                android:text="Satellite" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:textStyle="bold"
+                app:bootstrapBrand="danger"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onTerrainMap"
+                android:text="Terrain" />
+
+            <com.beardedhen.androidbootstrap.BootstrapButton
+                android:textStyle="bold"
+                app:bootstrapBrand="warning"
+                app:bootstrapSize="lg"
+                app:buttonMode="regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onHybridMap"
+                android:text="Hybrid" />
+
+        </LinearLayout>
+
+    </fragment>
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnAddAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:text="Add address"
+        android:textStyle="bold"
+        map:bootstrapBrand="success"
+        map:bootstrapSize="lg"
+        map:buttonMode="regular"
+        map:layout_constraintHorizontal_bias="1.0"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/etaddressmap"
+        map:roundedCorners="true"
+        map:showOutline="false" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New address"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        map:layout_constraintLeft_toLeftOf="parent"
+        map:layout_constraintBaseline_toBaselineOf="@+id/etaddressmap" />
+
+    <EditText
+        android:id="@+id/etaddressmap"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        map:layout_constraintLeft_toRightOf="@+id/textView"
+        map:layout_constraintRight_toRightOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        map:layout_constraintHorizontal_bias="0.0" />
+</android.support.constraint.ConstraintLayout>
