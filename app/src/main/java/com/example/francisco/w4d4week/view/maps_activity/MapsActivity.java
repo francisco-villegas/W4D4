@@ -102,6 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
 
         for (int i = 0; i < list2.length; i++) {
             presenter.AddresToCoordinates(list2[i]);
