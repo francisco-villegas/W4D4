@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     public void Continue() {
-        presenter.getLocation();
+
     }
 
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         DaggerMainActivityComponent.create().inject(this);
     }
 
-    @OnClick({R.id.btnAddLocation, R.id.btnGoToSecond})
+    @OnClick({R.id.btnAddLocation, R.id.btnGoToSecond, R.id.btnGetLocation})
     public void OnClick(View view){
         switch (view.getId()){
             case R.id.btnAddLocation:
@@ -133,19 +134,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                 startActivity(intent);
 
                 break;
+
+            case R.id.btnGetLocation:
+                presenter.getLocation();
+                break;
         }
     }
 
     @Override
     public void SendResultRestCall(String address) {
         if(tv2.getText().toString().equals("") && currentLocation != null) {
+            Log.d(TAG, "SendResultRestCall 1: ");
             tv2.setText(address);
             list.add( new LocationAddress(String.valueOf(currentLocation.getLatitude()),String.valueOf(currentLocation.getLongitude()), address));
         }
         else {
-            list.add(new LocationAddress(et1.getText().toString(), et2.getText().toString(), address));
-            et1.setText("");
-            et2.setText("");
+            if(!et1.getText().toString().equals("") && !et2.getText().toString().equals("")) {
+                list.add(new LocationAddress(et1.getText().toString(), et2.getText().toString(), address));
+                et1.setText("");
+                et2.setText("");
+            }
         }
         listAdapter.notifyDataSetChanged();
     }
@@ -250,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     case Activity.RESULT_OK:
                         // All required changes were successfully made
                         Toast.makeText(this, "GPS is Enabled in your device", Toast.LENGTH_LONG).show();
+
                         Continue();
                         break;
                     case Activity.RESULT_CANCELED:

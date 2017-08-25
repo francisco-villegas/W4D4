@@ -5,6 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -32,7 +36,7 @@ import okhttp3.Response;
  * Created by FRANCISCO on 24/08/2017.
  */
 
-public class MainActivityPresenter implements MainActivityContract.Presenter {
+public class MainActivityPresenter implements MainActivityContract.Presenter, LocationListener {
     MainActivityContract.View view;
     Context context;
     private static final String TAG = "MainActivityPresenter";
@@ -131,6 +135,7 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     public void getLocation() {
         try {
+            Log.d(TAG, "getLocation: ");
             FusedLocationProviderClient fusedLocationProviderClient;
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
             fusedLocationProviderClient.getLastLocation()
@@ -138,6 +143,11 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                         @Override
                         public void onSuccess(Location location) {
                             view.sendLocation(location);
+                            try {
+                                Log.d(TAG, "onSuccess: " + location.toString());
+                            }catch(Exception ex){
+                                Toast.makeText(context, "For some reason we cannot obtain the location, awesome!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -146,6 +156,43 @@ public class MainActivityPresenter implements MainActivityContract.Presenter {
                 }
             });
         }catch(Exception ex){view.showError("No Internet/location, please turn on and open the app again");}
+
+        LocationManager locationManager = (LocationManager) ((Activity) view).getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1000,100, this);
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d(TAG, "onLocationChanged: " + location.toString());
+        view.sendLocation(location);
+    }
+
+    @Override
+    public void onStatusChanged(String s, int status, Bundle extras) {
+        Log.d(TAG, "onStatusChanged: " + s);
+        
+        switch (status){
+            case LocationProvider.AVAILABLE:
+                Log.d(TAG, "onStatusChanged: ");
+                break;
+                
+            case LocationProvider.OUT_OF_SERVICE:
+                Log.d(TAG, "onStatusChanged: ");
+                break;
+
+            case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                Log.d(TAG, "onStatusChanged: ");
+                break;
+        }
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Log.d(TAG, "onProviderEnabled: ");
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Log.d(TAG, "onProviderDisabled: ");
+    }
 }
